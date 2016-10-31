@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Compoent">
+      <UniqueIdentifier>{ec9eee14-3cdf-4e7d-9af1-a3950b8dcd0c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="GameBoard.cpp">
+      <Filter>Compoent</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Compoent</Filter>
+    </ClCompile>
+    <ClCompile Include="AIPlayer.cpp">
+      <Filter>Compoent</Filter>
+    </ClCompile>
+    <ClCompile Include="Program.cpp" />
+    <ClCompile Include="Game.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GameBoard.h">
+      <Filter>Compoent</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Compoent</Filter>
+    </ClInclude>
+    <ClInclude Include="AIPlayer.h">
+      <Filter>Compoent</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="pch.h" />
+  </ItemGroup>
+</Project>
