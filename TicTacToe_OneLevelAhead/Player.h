@@ -1,5 +1,5 @@
 #pragma once
-#include "GameBoard.h"
+#include "pch.h"
 
 namespace TicTacToe {
 	class GameBoard;
@@ -14,6 +14,6 @@ namespace TicTacToe {
 
 	protected:
 		const char mPiece;
-		Game* mGame
+		Game* mGame;
 	};
 }

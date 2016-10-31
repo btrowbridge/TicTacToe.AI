@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "AIPlayer.h"
+
 
 using namespace std;
 
@@ -10,58 +10,63 @@ namespace TicTacToe {
 	}
 	void AIPlayer::MakeMove(GameBoard * board)
 	{
-		int*result;
+		MinimaxResult result = { 0 };
 		do {
 			UpdateCopyBoard(board);
-			auto result = Minimax(mMaxDepth, mPiece);
+			result = Minimax(mMaxDepth, mPiece);
 			
-		} while (board->AddPieceToBoard(mPiece, *(++result), *(++result)));
+		} while (!board->AddPieceToBoard(mPiece,result.Row,result.Col));
 		
 	}
+
 	void AIPlayer::UpdateCopyBoard(const GameBoard* board)
 	{
 		mCopyBoard = make_unique<GameBoard>(board);
 	}
-	int* AIPlayer::Minimax(int depth, char player) {
-	  // Generate possible next moves in a List of int[2] of {row, col}.
-      std::vector<pair<int, int>> nextMoves = mCopyBoard->GetAvailableMoves();
- 
-      // mPiece is maximizing; while mOtherPlayer->Piece() is minimizing
-      int bestScore = (player == mPiece) ? INT_MIN : INT_MAX;
 
-      int currentScore;
-      int bestRow = -1;
-      int bestCol = -1;
- 
-      if (nextMoves.empty() || depth == 0) {
-         // Gameover or depth reached, Evaluate score
-         bestScore = Evaluate();
-      } else {
-         for (auto move : nextMoves) {
-            // Try this move for the current "player"
-			 mCopyBoard->AddPieceToBoard(mPiece, move.first, move.second);
-            if (player == mPiece) {  // mPiece (computer) is maximizing player
-               currentScore = Minimax(depth - 1, mOtherPlayer->Piece())[0];
-               if (currentScore > bestScore) {
-                  bestScore = currentScore;
-                  bestRow = move.first;
-                  bestCol = move.second;
-               }
-            } else {  // mOtherPlayer->Piece() is minimizing player
-               currentScore = Minimax(depth - 1, mPiece)[0];
-               if (currentScore < bestScore) {
-                  bestScore = currentScore;
-                  bestRow = move.first;
-                  bestCol = move.second;
-               }
-            }
-            // Undo move
-            mCopyBoard->RemoveAt(move.first,move.second);
-         }
-      }
-      return new int[] {bestScore, bestRow, bestCol};
+	AIPlayer::MinimaxResult AIPlayer::Minimax(int depth, char player){
+		// Generate possible next moves in a List of int[2] of {row, col}.
+		std::vector<pair<int, int>> nextMoves = mCopyBoard->GetAvailableMoves();
+
+		// mPiece is maximizing; while mOtherPlayer->Piece() is minimizing
+		MinimaxResult result = { 0 };
+
+		result.Score = (player == mPiece) ? INT_MIN : INT_MAX;
+
+		int currentScore;
+
+		if (nextMoves.empty() || depth == 0) {
+			// Gameover or depth reached, Evaluate score
+			result.Score = Evaluate();
+		}
+		else {
+			for (auto move : nextMoves) {
+				// Try this move for the current "player"
+				mCopyBoard->AddPieceToBoard(mPiece, move.first, move.second);
+				if (player == mPiece) {  // mPiece (computer) is maximizing player
+					currentScore = Minimax(depth - 1, mOtherPlayer->Piece()).Score;
+					if (currentScore > result.Score) {
+						result.Score = currentScore;
+						result.Row = move.first;
+						result.Col = move.second;
+					}
+				}
+				else {  // mOtherPlayer->Piece() is minimizing player
+					currentScore = Minimax(depth - 1, mPiece).Score;
+					if (currentScore < result.Score) {
+						result.Score = currentScore;
+						result.Row = move.first;
+						result.Col = move.second;
+					}
+				}
+				// Undo move
+				mCopyBoard->RemoveAt(move.first, move.second);
+			}
+		}
+		return result;
 
 	}
+
 	int AIPlayer::Evaluate() {
       int score = 0;
       // Evaluate score for each of the 8 lines (3 rows, 3 columns, 2 diagonals)
