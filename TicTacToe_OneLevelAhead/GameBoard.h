@@ -1,15 +1,14 @@
 #pragma once
-#include "pch.h"
-using namespace std;
+#include <vector>
 
 namespace TicTacToe {
-	class Player;
 	class Game;
+	class Player;
 
 	class GameBoard
 	{
 	public:
-		GameBoard(Game* game);
+		GameBoard(Game& game);
 
 		bool AddPieceToBoard(char piece, int x, int y);
 
@@ -23,12 +22,14 @@ namespace TicTacToe {
 
 		void RemoveAt(int x, int y);
 
-		std::vector<pair<int, int>> GetAvailableMoves();
+		void Copy(const GameBoard board);
+
+		std::vector<std::pair<int, int>> GetAvailableMoves();
 
 	private:
 
-		static char mBoard[3][3];
+		char mBoard[3][3];
 		const static int mWinningPatterns[8];
-		Game* mGame;
+		Game& mGame;
 	};
 }

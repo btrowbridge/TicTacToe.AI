@@ -17,6 +17,7 @@
     </ClCompile>
     <ClCompile Include="Program.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="pch.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameBoard.h">

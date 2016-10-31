@@ -1,10 +1,10 @@
-
-#include "pch.h"
+#include	"pch.h"
+#include "Player.h"
 
 using namespace std;
 
 namespace TicTacToe {
-	Player::Player(const char piece, Game* game) : mPiece(piece), mGame(game)
+	Player::Player(const char piece, Game& game) : mPiece(piece), mGame(game)
 	{
 	}
 	const char Player::Piece() const
@@ -22,17 +22,17 @@ namespace TicTacToe {
 			try {
 				cout << Piece() << " Player's Turn" << endl;
 				cout << "Please input empty location column Number : 1-3" << endl;
-				if(!(cin >> colSelection)) {
+				if (!(cin >> colSelection)) {
 					throw new exception();
 				}
 
 				cout << "Please input empty location row Number: 1-3" << endl;
-				if(!(cin >> rowSelection)) {
+				if (!(cin >> rowSelection)) {
 					throw new exception();
 				}
 
-				isInvalid = (colSelection > 4 || colSelection < 0 || rowSelection > 4 || rowSelection < 0 
-					|| !board->AddPieceToBoard(Piece(), colSelection, rowSelection));
+				isInvalid = (colSelection > 4 || colSelection < 1 || rowSelection > 4 || rowSelection < 1
+					|| !board->AddPieceToBoard(Piece(), rowSelection,colSelection ));
 			}
 			catch (...) {
 				while (cin.fail()) {
@@ -41,6 +41,5 @@ namespace TicTacToe {
 				}
 			}
 		} while (isInvalid);
-
 	}
 }

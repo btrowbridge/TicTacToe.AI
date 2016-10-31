@@ -1,5 +1,5 @@
+#include "pch.h"
 #include "Game.h"
-
 
 using namespace std;
 
@@ -7,16 +7,14 @@ namespace TicTacToe {
 	Game::Game() : mBoard(), mPlayer1(), mPlayer2(), mMoveCount(0)
 	{
 	}
-	Game::Game(GameBoard* board, Player* player1, Player* player2) : mBoard(board), mPlayer1(player1), mPlayer2(player2), mMoveCount(0)
-	{
-	}
+
 	const Player * Game::GetOtherPlayer(const Player * player) const
 	{
 		return (player == mPlayer1.get()) ? mPlayer2.get() : mPlayer1.get();
 	}
 	Player * Game::GetOtherPlayer(const Player * player)
 	{
-		return const_cast<Player*>(static_cast<const Game&>(*this).GetOtherPlayer(player));
+		return (player == mPlayer1.get()) ? mPlayer2.get() : mPlayer1.get();
 	}
 
 	const GameBoard * Game::GetBoard() const
@@ -26,9 +24,9 @@ namespace TicTacToe {
 
 	void Game::Initialize()
 	{
-		mPlayer1 = make_shared<Player>('X', this);
-		mPlayer2 = make_shared<Player>('O', this);
-		mBoard = make_shared<GameBoard>(this);
+		mPlayer1 = make_shared<Player>('X', *this);
+		mPlayer2 = make_shared<AIPlayer>('O', *this);
+		mBoard = make_shared<GameBoard>(*this);
 	}
 	void Game::Run()
 	{
@@ -37,6 +35,7 @@ namespace TicTacToe {
 
 		while (playingGame) {
 			mBoard->ClearBoard();
+			mMoveCount = 0;
 			while ((mMoveCount < 9))
 			{
 				mBoard->DisplayBoard();
@@ -53,20 +52,19 @@ namespace TicTacToe {
 			}
 			char result = 'N';
 			try {
-				
 				cout << "Play Again? Y/N" << endl;
-				if(!(cin >> result)) {
+				if (!(cin >> result)) {
 					throw new exception();
 				}
 			}
-			catch(...){
+			catch (...) {
 				while (cin.fail()) {
 					cin.clear();
 					std::cin.ignore(numeric_limits<streamsize>::max(), '\n');
 				}
 				break;
 			}
-			playingGame = (result == 'Y');
+			playingGame = (result == 'Y' || result == 'y');
 		}
 	}
 }

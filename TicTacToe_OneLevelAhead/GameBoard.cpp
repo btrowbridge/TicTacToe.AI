@@ -1,22 +1,20 @@
-
 #include "pch.h"
-
+#include "GameBoard.h"
 
 using namespace std;
 
 namespace TicTacToe {
-
 	const int GameBoard::mWinningPatterns[8] = {
 		 0b111000000, 0b000111000, 0b000000111, // rows
 		 0b100100100, 0b010010010, 0b001001001, // cols
 		 0b100010001, 0b001010100               // diagonals
 	};
-	char GameBoard::mBoard[3][3] = { {' ',' ',' '},{' ',' ',' '},{' ',' ',' '} };
 
-	GameBoard::GameBoard(Game* game): mGame(game)
+	GameBoard::GameBoard(Game& game) : mGame(game)
 	{
-		
+		ClearBoard();
 	}
+
 	bool GameBoard::AddPieceToBoard(char piece, int x, int y)
 	{
 		x--;
@@ -30,19 +28,19 @@ namespace TicTacToe {
 	}
 	void GameBoard::DisplayBoard()
 	{
-		for (int yi = 0; yi < 3; yi++) {
-			for (int xi = 0; xi < 3; xi++) {
+		for (int xi = 0; xi < 3; xi++) {
+			for  (int yi = 0; yi < 3; yi++) {
 				cout << "|" << mBoard[xi][yi];
 			}
 			cout << "|" << endl;
-			if (yi != 2)
+			if (xi != 2)
 				cout << "--------" << endl;
 		}
 	}
 	void GameBoard::ClearBoard()
 	{
-		for (int yi = 0; yi < 3; yi++) {
-			for (int xi = 0; xi < 3; xi++) {
+		for (int xi = 0; xi < 3; xi++) {
+			for (int yi = 0; yi < 3; yi++) {
 				mBoard[xi][yi] = ' ';
 			}
 		}
@@ -57,8 +55,8 @@ namespace TicTacToe {
 				}
 			}
 		}
-		for (int mWinningPatterns : mWinningPatterns) {
-			if ((pattern & mWinningPatterns) == mWinningPatterns) return true;
+		for (int winningPattern : mWinningPatterns) {
+			if ((pattern & winningPattern) == winningPattern) return true;
 		}
 		return false;
 	}
@@ -82,6 +80,15 @@ namespace TicTacToe {
 	void GameBoard::RemoveAt(int x, int y)
 	{
 		mBoard[x][y] = ' ';
+	}
+
+	void GameBoard::Copy(const GameBoard board)
+	{
+		for (int row = 0; row < 3; ++row) {
+			for (int col = 0; col < 3; ++col) {
+				mBoard[row][col] = board.mBoard[row][col];
+			}
+		}
 	}
 
 	std::vector<pair<int, int>> GameBoard::GetAvailableMoves()
