@@ -22,8 +22,8 @@ namespace TicTacToe {
 		cout << "Thinking..." << endl;
 		result = MinimaxWithAlphaBeta(mMaxDepth, mPiece, mDefaultAlpha, mDefaultBeta);
 
-		board->AddPieceToBoard(mPiece, ++result.Row, ++result.Col);
-		cout << "Computer choses (" << result.Row << "," << result.Col << ") with a minimax score of " << result.Score+1 << endl;
+		board->AddPieceToBoard(mPiece, result.Row, result.Col);
+		cout << "Computer choses (" << result.Col + 1 << "," << result.Row + 1 << ") with a minimax score of " << result.Score + 1 << endl;
 
 	}
 
@@ -52,7 +52,7 @@ namespace TicTacToe {
 		else {
 			for (auto move : nextMoves) {
 				// Try this move 
-				mCopyBoard->AddPieceToBoard(player, move.first, move.second);
+				mCopyBoard->AddPieceToBoard(player, move.first + 1, move.second + 1);
 
 				if (player == mPiece) {  // max player
 					currentScore = Minimax(depth - 1, mOtherPlayer->Piece()).Score;

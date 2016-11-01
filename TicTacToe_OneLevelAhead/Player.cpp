@@ -21,6 +21,7 @@ namespace TicTacToe {
 		do {
 			try {
 				cout << Piece() << " Player's Turn" << endl;
+
 				cout << "Please input empty location column Number : 1-3" << endl;
 				if (!(cin >> colSelection)) {
 					throw new exception();
@@ -31,8 +32,8 @@ namespace TicTacToe {
 					throw new exception();
 				}
 
-				isInvalid = (colSelection > 4 || colSelection < 1 || rowSelection > 4 || rowSelection < 1
-					|| !board->AddPieceToBoard(Piece(), rowSelection,colSelection ));
+				isInvalid = (colSelection > 3 || colSelection < 1 || rowSelection > 3 || rowSelection < 1
+					|| !board->AddPieceToBoard(Piece(), rowSelection-1,colSelection-1));
 			}
 			catch (...) {
 				while (cin.fail()) {

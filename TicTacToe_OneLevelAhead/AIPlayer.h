@@ -14,8 +14,8 @@ namespace TicTacToe {
 		void MakeMove(GameBoard* board) override;
 	private:
 		static const int mMaxDepth;
-		static const int AIPlayer::mDefaultAlpha;
-		static const int AIPlayer::mDefaultBeta;
+		static const int mDefaultAlpha;
+		static const int mDefaultBeta;
 
 		struct MinimaxResult {
 			int Score;

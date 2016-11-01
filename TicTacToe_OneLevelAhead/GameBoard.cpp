@@ -17,8 +17,6 @@ namespace TicTacToe {
 
 	bool GameBoard::AddPieceToBoard(char piece, int x, int y)
 	{
-		x--;
-		y--;
 		if (mBoard[x][y] == ' ') {
 			mBoard[x][y] = piece;
 			return true;
